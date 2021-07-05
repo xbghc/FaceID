@@ -6,7 +6,7 @@ def cameraAutoForPictures(saveDir='data/'):
     if not os.path.exists(saveDir):
         os.makedirs(saveDir)
     count = 1
-    cap = cv2.VideoCapture(1000)
+    cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
     width, height, w = 640, 480, 360
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
@@ -16,10 +16,6 @@ def cameraAutoForPictures(saveDir='data/'):
     print('height: ', height)
     while True:
         ret, frame = cap.read()
-        # if not ret:
-        #     print('没有图片')
-        #     time.sleep(1)
-        #     continue
         frame = frame[crop_h_start:crop_h_start+w, crop_w_start:crop_w_start+w]
         frame = cv2.flip(frame, 1, dst=None)
         cv2.imshow("capture", frame)
