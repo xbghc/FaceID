@@ -35,4 +35,4 @@ def cameraAutoForPictures(saveDir='data/'):
 
 
 if __name__ == '__main__' :
-    cameraAutoForPictures(saveDir='data/test/main/')
+    cameraAutoForPictures(saveDir='../data/gonghaoming')

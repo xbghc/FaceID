@@ -9,7 +9,7 @@ from keras.layers import Dense, Activation, Convolution2D, MaxPooling2D, Flatten
 
 
 class DataSet(object):
-    def init_(self, path):
+    def __init__(self, path):
         self.num_classes = None
         self.X_train = None
         self.X_test = None
@@ -59,9 +59,9 @@ def read_file(path):
         child_path = os.path.join(path, child_dir)
         for dir_image in os.listdir(child_path):
             if endwith(dir_image, 'jpg'):
-                img = cv2.imread(os.path.join(child_path), dir_image)
+                img = cv2.imread(os.path.join(child_path, dir_image))
                 resized_img = cv2.resize(img, (IMG_SIZE, IMG_SIZE))
-                recolored_img = cv2.cvtColor(resized_img, cv2.COLOR_BEG2GRAY)
+                recolored_img = cv2.cvtColor(resized_img, cv2.COLOR_BGR2GRAY)
                 img_list.append(recolored_img)
                 label_list.append(dir_counter)
         dir_counter += 1
@@ -93,21 +93,21 @@ class Model(object):
                 filters=32,
                 kernel_size=(5, 5),
                 padding='same',
-                dim_ordering='th',
+                # dim_ordering='th',
                 input_shape=self.dataset.X_train.shape[1:]
             )
         )
         self.model.add(Activation('relu'))
         self.model.add(
             MaxPooling2D(
-                poo1_size=(2, 2),
+                pool_size=(2, 2),
                 strides=(2, 2),
                 padding="same"
             )
         )
         self.model.add(Convolution2D(filters=64, kernel_size=(5, 5), padding='same'))
         self.model.add(Activation('relu'))
-        self.model1.add(MaxPooling_size=(2, 2), strides=(2, 2), padding='same')
+        self.model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2), padding='same'))
         self.model.add(Flatten())
         self.model.add(Dense(1024))
         self.model.add(Activation('relu'))
@@ -118,7 +118,7 @@ class Model(object):
     def train_model(self):
         self.model.compile(
             optimizer='adam',
-            loss='categorical_crossentropyy',
+            loss='categorical_crossentropy',
             metrics=['accuracy'])
         self.model.fit(self.dataset.X_train, self.dataset.Y_train, epochs=10, batch_size=10)
 
@@ -141,7 +141,7 @@ class Model(object):
         img = img.reshape((1, 1, self.IMAGE_SIZE, self.IMAGE_SIZE))
         img = img.astype('float32')
         img = img / 255.0
-        result = self.model.predict_proba(img)
+        result = self.model.predict(img)
         max_index = np.argmax(result)
         return max_index, result[0][max_index]
 

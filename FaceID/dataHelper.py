@@ -33,28 +33,27 @@ def endwith(s, *endstring):
 def readPicSaveFace(sourcePath, objectPath, *suffix):
     if not os.path.exists(objectPath):
         os.makedirs(objectPath)
-        try:
-            resultArray = readAllImg(sourcePath, *suffix)
-            count = 1
-            face_cascade = cv2.CascadeClassifier('config/haarcascade_frontalface_alt.xml')
-            for i in resultArray:
-                if type(i) != str:
-                    gray = cv2.cvtColor(i, cv2.COLOR_BGR2GRAY)
-                    faces = face_cascade.detectMultiScale(gray, 1.3, 5)
-                    for (x, y, w, h) in faces:
-                        listStr = [str(int(time.time())), str(count)]
-                        fileName = ''.join(listStr)
-                        f = cv2.resize(gray[y:(y + h), x:(x + w)], (200, 200))
-                        cv2.imwrite(objectPath + os.sep + '%s.jpg' % fileName, f)
-                        count += 1
-        except Exception as e:
-            print("Exception:", e)
-        else:
-            print('Read ' + str(count - 1) + ' Faces to Destination ' + objectPath)
+    try:
+        resultArray = readAllImg(sourcePath, *suffix)
+        count = 1
+        face_cascade = cv2.CascadeClassifier('../docs/haarcascade_frontalface_alt.xml')
+        for i in resultArray:
+            if type(i) != str:
+                gray = cv2.cvtColor(i, cv2.COLOR_BGR2GRAY)
+                faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+                for (x, y, w, h) in faces:
+                    listStr = [str(int(time.time())), str(count)]
+                    fileName = ''.join(listStr)
+                    f = cv2.resize(gray[y:(y + h), x:(x + w)], (200, 200))
+                    cv2.imwrite(objectPath + os.sep + '%s.jpg' % fileName, f)
+                    count += 1
+    except Exception as e:
+        print("Exception:", e)
+    else:
+        print('Read ' + str(count - 1) + ' Faces to Destination ' + objectPath)
 
 
 if __name__ == '__main__':
     print('dataProcessing!!!')
-    readPicSaveFace('data/guanxijing/', 'dataset/guanxijing/', ' .jpg', '.JPG', 'png', 'PNG', 'tiff')
+    readPicSaveFace('data/guanxijing/', 'dataset/guanxijing/', '.jpg', '.JPG', 'png', 'PNG', 'tiff')
 
-readPicSaveFace('data/KA/', 'dataset/KA/', '.jpg', '.JPG', 'png', 'PNG', 'tiff')
