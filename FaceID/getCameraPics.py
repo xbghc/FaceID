@@ -1,8 +1,11 @@
+# 从摄像头拍摄照片
+
 import os
 import cv2
 
 
-def cameraAutoForPictures(saveDir='data/'):
+def cameraAutoForPictures(user='anonymous'):
+    saveDir = '../data/{}'.format(user)
     if not os.path.exists(saveDir):
         os.makedirs(saveDir)
     count = 1
@@ -21,13 +24,9 @@ def cameraAutoForPictures(saveDir='data/'):
         frame = cv2.flip(frame, 1, dst=None)
         cv2.imshow("capture", frame)
         action = cv2.waitKey(1) & 0xFF
-        if action == ord('c'):
-            saveDir = input(u"请输入新的存储目录")
-            if not os.path.exists(saveDir):
-                os.makedirs(saveDir)
-        elif action == ord('p'):
-            cv2.imwrite("%s/%d.jpg" % (saveDir, count), cv2.resize(frame, (224, 224), interpolation=cv2.INTER_AREA))
-            print(u"%s:%d张图片" % (saveDir, count))
+        if action == ord('p'):
+            cv2.imwrite(f"{saveDir}/{count}.jpg", cv2.resize(frame, (224, 224), interpolation=cv2.INTER_AREA))
+            print(f"{saveDir}:{count}张图片")
             count += 1
         elif action == ord('q'):
             break
@@ -36,4 +35,5 @@ def cameraAutoForPictures(saveDir='data/'):
 
 
 if __name__ == '__main__':
-    cameraAutoForPictures(saveDir='../data/gonghaoming')
+    username = input("请输入人的姓名:")
+    cameraAutoForPictures(user=username)
