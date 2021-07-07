@@ -14,6 +14,11 @@ def cameraAutoForPictures(saveDir='data/'):
     crop_h_start = (height - w) // 2
     print('width: ', width)
     print('height: ', height)
+
+    def release():
+        cap.release()
+        cv2.destroyAllWindows()
+
     while True:
         ret, frame = cap.read()
         frame = frame[crop_h_start:crop_h_start+w, crop_w_start:crop_w_start+w]
@@ -30,9 +35,8 @@ def cameraAutoForPictures(saveDir='data/'):
             count += 1
         elif action == ord('q'):
             break
-    cap.release()
-    cv2.destroyAllWindows()
+    release()
 
 
-if __name__ == '__main__' :
+if __name__ == '__main__':
     cameraAutoForPictures(saveDir='../data/gonghaoming')

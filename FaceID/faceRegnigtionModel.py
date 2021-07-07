@@ -1,11 +1,11 @@
-import os
-import cv2
 import random
 import numpy as np
 from keras.utils import np_utils
 from keras.models import Sequential, load_model
 from sklearn.model_selection import train_test_split
-from keras.layers import Dense, Activation, Convolution2D, MaxPooling2D, Flatten, Dropout
+from keras.layers import Dense, Activation, Convolution2D, MaxPooling2D, Flatten
+
+from FaceID.file import read_file
 
 
 class DataSet(object):
@@ -43,41 +43,8 @@ class DataSet(object):
         print('size:', self.X_train.size)
 
 
-def endwith(s, *endstring):
-    resultArray = map(s.endswith, endstring)
-    if True in resultArray:
-        return True
-    return False
-
-
-def read_file(path):
-    img_list = []
-    label_list = []
-    dir_counter = 0
-    IMG_SIZE = 128
-    for child_dir in os.listdir(path):
-        child_path = os.path.join(path, child_dir)
-        for dir_image in os.listdir(child_path):
-            if endwith(dir_image, 'jpg'):
-                img = cv2.imread(os.path.join(child_path, dir_image))
-                resized_img = cv2.resize(img, (IMG_SIZE, IMG_SIZE))
-                recolored_img = cv2.cvtColor(resized_img, cv2.COLOR_BGR2GRAY)
-                img_list.append(recolored_img)
-                label_list.append(dir_counter)
-        dir_counter += 1
-    img_list = np.array(img_list)
-    return img_list, label_list, dir_counter
-
-
-def read_name_list(path):
-    name_list = []
-    for child_dir in os.listdir(path):
-        name_list.append(child_dir)
-    return name_list
-
-
 class Model(object):
-    FILE_PATH = "face.h5"
+    FILE_PATH = "../face.h5"
     IMAGE_SIZE = 128
 
     def init(self):
@@ -147,7 +114,7 @@ class Model(object):
 
 
 if __name__ == '__main__':
-    dataset = DataSet('dataset/')
+    dataset = DataSet('../dataset/')
     model = Model()
     model.read_trainData(dataset)
     model.build_model()

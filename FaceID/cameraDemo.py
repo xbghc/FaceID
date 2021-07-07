@@ -1,15 +1,9 @@
-import os
 import cv2
-from .faceRegnigtionModel import Model
+
+from FaceID.file import read_name_list
+from faceRegnigtionModel import Model
 
 threshold = 0.7
-
-
-def read_name_list(path):
-    name_list = []
-    for child_dir in os.listdir(path):
-        name_list.append(child_dir)
-    return name_list
 
 
 class Camera_reader(object):
