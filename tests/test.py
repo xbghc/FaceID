@@ -1,6 +1,5 @@
 from context import FaceID
 import cv2
-import os
 
 
 def test_camera():
@@ -50,9 +49,14 @@ def test_cameraDemo():
 
 
 if __name__ == '__main__':
-    username = "gonghaoming"
-    saveDir = "../data/{}/".format(username)
-    datasetDir = "../dataset/{}/".format(username)
+    username = "ghm"
+    FaceID.cameraAutoForPictures(username)
+    dataDir = f'../data/{username}/'
+    datasetDir = f'../dataset/{username}/'
+    print(f'源文件夹：{dataDir}\n目的文件夹：{datasetDir}')
+    FaceID.readPicSaveFace(dataDir, datasetDir, '.jpg', '.JPG', 'png', 'PNG', 'tiff')
+    camera = FaceID.Camera_reader()
+    camera.build_camera()
 
     # test_getCameraPics()
     # print('\n\n\n')
@@ -60,4 +64,4 @@ if __name__ == '__main__':
     # print('\n\n\n')
     # test_faceRegnitionModel()
     # print('\n\n\n')
-    test_cameraDemo()
+    # test_cameraDemo()

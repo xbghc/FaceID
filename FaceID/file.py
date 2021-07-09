@@ -1,5 +1,5 @@
 import os
-
+import base64
 import cv2
 import numpy as np
 
@@ -35,3 +35,22 @@ def read_name_list(path):
     for child_dir in os.listdir(path):
         name_list.append(child_dir)
     return name_list
+
+
+def readAllImg(path, *suffix):
+    try:
+        s = os.listdir(path)
+        resultArray = []
+        fileName = os.path.basename(path)
+        resultArray.append(fileName)
+        for i in s:
+            if endwith(i, suffix):
+                document = os.path.join(path, i)
+                img = cv2.imread(document)
+                resultArray.append(img)
+    except IOError:
+        print("Error")
+
+    else:
+        print("读取成功")
+        return resultArray

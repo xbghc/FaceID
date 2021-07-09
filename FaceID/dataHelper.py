@@ -2,32 +2,7 @@ import os
 import cv2
 import time
 
-
-def readAllImg(path, *suffix):
-    try:
-        s = os.listdir(path)
-        resultArray = []
-        fileName = os.path.basename(path)
-        resultArray.append(fileName)
-        for i in s:
-            if endwith(i, suffix):
-                document = os.path.join(path, i)
-                img = cv2.imread(document)
-                resultArray.append(img)
-    except IOError:
-        print("Error")
-
-    else:
-        print("读取成功")
-        return resultArray
-
-
-def endwith(s, *endstring):
-    resultArray = map(s.endswith, endstring)
-    if True in resultArray:
-        return True
-    else:
-        return False
+from FaceID.file import readAllImg
 
 
 def readPicSaveFace(sourcePath, objectPath, *suffix):
@@ -54,6 +29,10 @@ def readPicSaveFace(sourcePath, objectPath, *suffix):
 
 
 if __name__ == '__main__':
-    print('dataProcessing!!!')
-    readPicSaveFace('data/guanxijing/', 'dataset/guanxijing/', '.jpg', '.JPG', 'png', 'PNG', 'tiff')
+    # username = input("用户名：")
+    username = 'cx'
+    dataDir = f'../data/{username}/'
+    datasetDir = f'../dataset/{username}/'
+    print(f'源文件夹：{dataDir}\n目的文件夹：{datasetDir}')
+    readPicSaveFace(dataDir, datasetDir, '.jpg', '.JPG', 'png', 'PNG', 'tiff')
 

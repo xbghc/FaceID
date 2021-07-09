@@ -5,7 +5,7 @@ import cv2
 
 
 def cameraAutoForPictures(user='anonymous'):
-    saveDir = '../data/{}'.format(user)
+    saveDir = '../data/{}/'.format(user)
     if not os.path.exists(saveDir):
         os.makedirs(saveDir)
     count = 1
@@ -20,7 +20,7 @@ def cameraAutoForPictures(user='anonymous'):
 
     while True:
         ret, frame = cap.read()
-        frame = frame[crop_h_start:crop_h_start+w, crop_w_start:crop_w_start+w]
+        frame = frame[crop_h_start:crop_h_start + w, crop_w_start:crop_w_start + w]
         frame = cv2.flip(frame, 1, dst=None)
         cv2.imshow("capture", frame)
         action = cv2.waitKey(1) & 0xFF
@@ -35,5 +35,6 @@ def cameraAutoForPictures(user='anonymous'):
 
 
 if __name__ == '__main__':
-    username = input("请输入人的姓名:")
+    # username = input("请输入姓名(不支持中文):")
+    username = 'cx'
     cameraAutoForPictures(user=username)
