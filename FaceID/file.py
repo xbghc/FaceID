@@ -54,3 +54,6 @@ def readAllImg(path, *suffix):
     else:
         print("读取成功")
         return resultArray
+
+
+

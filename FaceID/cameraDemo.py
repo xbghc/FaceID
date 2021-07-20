@@ -17,6 +17,9 @@ class Camera_reader(object):
         name_list = read_name_list('../dataset/')
         cameraCapture = cv2.VideoCapture(0)
         success, frame = cameraCapture.read()
+        if frame is None:
+            print('请检测摄像头存在且未被占用')
+            return
         while success and cv2.waitKey(1) == -1:
             success, frame = cameraCapture.read()
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)

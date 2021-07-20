@@ -28,9 +28,11 @@ def readPicSaveFace(sourcePath, objectPath, *suffix):
         print('Read ' + str(count - 1) + ' Faces to Destination ' + objectPath)
 
 
+
+
 if __name__ == '__main__':
     # username = input("用户名：")
-    username = 'cx'
+    username = 'ghm'
     dataDir = f'../data/{username}/'
     datasetDir = f'../dataset/{username}/'
     print(f'源文件夹：{dataDir}\n目的文件夹：{datasetDir}')

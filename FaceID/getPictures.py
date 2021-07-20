@@ -20,8 +20,10 @@ def cameraAutoForPictures(user='anonymous'):
 
     while True:
         ret, frame = cap.read()
+        if frame is None:
+            print('请检测摄像头存在且未被占用')
+            return
         frame = frame[crop_h_start:crop_h_start + w, crop_w_start:crop_w_start + w]
-        frame = cv2.flip(frame, 1, dst=None)
         cv2.imshow("capture", frame)
         action = cv2.waitKey(1) & 0xFF
         if action == ord('p'):
@@ -34,7 +36,36 @@ def cameraAutoForPictures(user='anonymous'):
     cv2.destroyAllWindows()
 
 
+def VideoAutoForPictures(user='anonymous'):
+    saveDir = '../data/{}/'.format(user)
+    if not os.path.exists(saveDir):
+        os.makedirs(saveDir)
+    count = 1
+    cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+    width, height, w = 640, 480, 360
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
+    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
+    print('width: ', width)
+    print('height: ', height)
+
+    while True:
+        ret, frame = cap.read()
+        if frame is None:
+            print('请检测摄像头存在且未被占用')
+            return
+        # write the flipped frame
+        cv2.imshow('frame', frame)
+        cv2.imwrite(f'{saveDir}{count}.jpg', frame)
+        count += 1
+        if cv2.waitKey(1) == ord('q'):
+            break
+
+    cap.release()
+    cv2.destroyAllWindows()
+
+
 if __name__ == '__main__':
     # username = input("请输入姓名(不支持中文):")
-    username = 'cx'
-    cameraAutoForPictures(user=username)
+    username = 'ghm'
+    # cameraAutoForPictures(user=username)
+    VideoAutoForPictures(user=username)

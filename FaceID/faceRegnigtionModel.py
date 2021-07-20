@@ -49,6 +49,7 @@ class Model(object):
 
     def init(self):
         self.model = None
+        self.build_model()
 
     def read_trainData(self, dataset):
         self.dataset = dataset
@@ -88,6 +89,7 @@ class Model(object):
             loss='categorical_crossentropy',
             metrics=['accuracy'])
         self.model.fit(self.dataset.X_train, self.dataset.Y_train, epochs=10, batch_size=10)
+        print(self.model.summary())
 
     def evaluate_model(self):
         print('\nTesting----------')
@@ -117,7 +119,6 @@ if __name__ == '__main__':
     dataset = DataSet('../dataset/')
     model = Model()
     model.read_trainData(dataset)
-    model.build_model()
     model.train_model()
     model.evaluate_model()
     model.save()
